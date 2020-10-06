@@ -57,7 +57,8 @@ def createCorpus():
         def sent_to_words(sentences):
             for sentence in sentences:
                 yield(simple_preprocess(str(sentence),deacc=True))
-                
+
+        df = preprocessToDF()                
         data = df.text.values.tolist()
         # remove city information
         for i in range(len(data)):
