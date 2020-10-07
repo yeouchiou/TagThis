@@ -163,6 +163,7 @@ def preprocessSingleInput(inputDoc):
 
 if __name__ == '__main__':
     df = preprocessToDF()
+    doc_list, words, corpus = createCorpus()
     print(df.head())
 
 
