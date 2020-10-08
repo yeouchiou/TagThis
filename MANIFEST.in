@@ -1,2 +1,3 @@
 include requirements.txt
-recursive-include data *
+include data/nytimes_news_articles.txt 
+include data/articlestopics.csv
