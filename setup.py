@@ -1,4 +1,4 @@
-from distils.core import setup
+from distuils.core import setup
 
 setup(name = "TagThis",
         author = "Yeou Chiou",
