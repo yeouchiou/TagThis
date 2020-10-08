@@ -1,0 +1,10 @@
+pandas
+numpy
+matplotlib
+scipy
+gensim
+spacy
+wordcloud
+streamlit
+joblib
+scikit-learn
