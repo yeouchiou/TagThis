@@ -72,11 +72,9 @@ def createCorpus():
 
         nlp = spacy.load('en_core_web_sm', disable=['tagger', 'parser'])
 
-        # Updates spaCy's default stop words list with my additional words. 
         stop_list = ["mrs", "ms", "say", "'s", "mr", '\ufeff1']
         nlp.Defaults.stop_words.update(stop_list)
 
-        # Iterates over the words in the stop words list and resets the "is_stop" flag.
         for word in STOP_WORDS:
             lexeme = nlp.vocab[word]
             lexeme.is_stop = True
