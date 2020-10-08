@@ -121,6 +121,8 @@ def preprocessSingleInput(inputDoc):
             yield(simple_preprocess(str(sentence),deacc=True))
             
     data = inputDoc 
+    if len(data) < 10:
+        raise ValueError('Please post an article with more than a 10 words')
     # remove city information
     if data.split()[1] == '—':
         data = ' '.join(data.split()[2:])
