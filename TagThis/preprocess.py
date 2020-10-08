@@ -11,7 +11,7 @@ from collections import defaultdict
 
 FILENAME = 'nytimes_news_articles.txt'
 basepath = os.path.dirname(__file__)
-filepath = os.path.abspath(os.path.join(basepath, '..', 'data', FILENAME))
+filepath = os.path.abspath(os.path.join(basepath, 'data', FILENAME))
 
 
 def preprocessToDF(urls=True):
