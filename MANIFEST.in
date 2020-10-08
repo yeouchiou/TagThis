@@ -1,3 +1,4 @@
 include requirements.txt
 include data/nytimes_news_articles.txt 
 include data/articlestopics.csv
+recursive-include TagThis *.py
