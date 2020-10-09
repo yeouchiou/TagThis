@@ -34,9 +34,9 @@ cd tagthis
 ```
 
 2. Install package
-`
+```
 python setup.py install
-`
+```
 
 ## How it works
 
