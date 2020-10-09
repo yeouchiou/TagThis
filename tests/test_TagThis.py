@@ -7,6 +7,6 @@ def test_TagThis_smoke():
     from gensim.test.utils import common_texts
     from gensim.corpora.dictionary import Dictionary
     common_dictionary = Dictionary(common_texts)
-    common_corpus = [common_dictionary.doc2bow(text) for text in common.texts]
+    common_corpus = [common_dictionary.doc2bow(text) for text in common_texts]
 
     obj = TagThis.TopicModel(1, common_texts, common_dictionary, common_corpus)
