@@ -7,10 +7,6 @@ from collections import defaultdict
 from gensim.models import LdaModel, CoherenceModel
 from joblib import dump, load
 from wordcloud import WordCloud
-from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.svm import SVC
-import os
 
 
 class TopicModel():
