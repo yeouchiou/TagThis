@@ -54,6 +54,6 @@ Latent Dirichlet Allocation is a generative statistical model which creates late
 We trained LDA on a Kaggle New York Times article dataset which contained around 9000 full-text articles from April to June in 2016. Articles had an average of about 800 words per article. We have used average Jaccard similarity between topics to choose the number of topics. From the elbow method, 10 topics were chosen for this dataset.
 ![image](images/jaccard.png)
 
-## Tag Classifier
+## Classifier
 
 Assuming that these topics are ground truth labels, we then trained a support vector machine (SVM) classifier with a Tf-Idf feature representation for the articles. SVMs allow for lightweight and fast inference due to only requiring the trained support vectors. The SVM achieves a micro-averaged precision of 88.6%!
