@@ -24,7 +24,7 @@ docker image build -t tagthis:app .
 docker container run -p 8501:8501 -d tagthis:app
 ```
 ## Advanced Setup
----
+
 To run the app on new data, you need to install the package. You may also import your own classifiers.
 1. git clone this repository and create an environment 
 ```
