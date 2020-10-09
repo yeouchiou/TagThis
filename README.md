@@ -42,4 +42,5 @@ python setup.py install
 
 The app has two modes. OIn the "tagger" mode you can paste a full text article and it will assign one of the latent topics from the LDA algorithm. You can then select relevant words as tags. In the "explore tags" option, you can explore all the different topics and tags. 
 
-
+![image](images/tagger.png)
+![image](images/exploretags.png)
