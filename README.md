@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/yeouchiou/TagThis.svg?branch=main)](https://travis-ci.com/yeouchiou/TagThis)
 # TagThis!
 
-TagThis! is an automated news tagging system app that saves editors time by automatically creating topics and classifying articles so that editors can create relevant tags and quickly and easily curate news content. It leverages Latent Dirichlet Allocation (Blei+03) to create latent topics, then uses a support vector classifier to infer topics from new articles. 
+TagThis! is an automated news tagging system app that saves editors time by automatically creating topics and classifying articles so that editors can create relevant tags and quickly and easily curate news content. It leverages Latent Dirichlet Allocation (Blei+03) to create latent topics, then uses a support vector classifier to infer topics from new articles. This app was created during my time at Insight Data science as an Artificial Intelligence Fellow.
 
 ## Setup
 
