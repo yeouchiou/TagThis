@@ -16,6 +16,12 @@ class Articles():
         self.doc_list, self.words, self.corpus = self._createCorpus()
         self.nlp = self._createNLPPipeline()
 
+    def __str__(self):
+        return "List of articles from " + self.filepath
+
+    def __repr__(self):
+        return str(self)
+
     def preprocessSingleInput(self, data):
         # assumes data is a string of sentences
         if len(data) < 10:
