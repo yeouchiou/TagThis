@@ -5,7 +5,6 @@ import pickle
 import os
 from tqdm import tqdm
 from gensim import corpora
-from gensim.utils import simple_preprocess
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
@@ -78,4 +77,37 @@ class Articles():
         nlp.add_pipe(lemmatizer, name='lemmatizer', after='ner')
         nlp.add_pipe(remove_stopwords, name="stopwords", last=True)
         return nlp
+
+    def _createCorpus(self):
+        if os.path.exists('processedtext.pkl'):
+            with open('processedtext.pkl', 'rb') as f:
+                doc_list, words, corpus = pickle.load(f)
+        else:
+            data = self.df.text.values.tolist()
+            # remove city information
+            for i in range(len(data)):
+                if data[i].split()[1] == '—':
+                    data[i] = ' '.join(data[i].split()[2:])
+            # remove punctuation
+            data = [re.sub('[,\.!?]', '', x) for x in data]
+            # lowercase everything
+            data = [x.lower() for x in data]
+            newest_doc = data
+            doc_list = []
+            nlp = self.createNLPPipeline()
+            # Iterates through each article in the corpus.
+            for doc in tqdm(newest_doc):
+                # Passes that article through the pipeline and adds to a new list.
+                pr = nlp(doc)
+                doc_list.append(pr)
+
+            # Creates, which is a mapping of word IDs to words.
+            words = corpora.Dictionary(doc_list)
+
+            # Turns each document into a bag of words.
+            corpus = [words.doc2bow(doc) for doc in doc_list]
+
+            with open('processedtext.pkl', 'wb') as f:
+                pickle.dump([doc_list, words, corpus], f)
+        return doc_list, words, corpus
 
