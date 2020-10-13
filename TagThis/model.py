@@ -6,20 +6,18 @@ from wordcloud import WordCloud
 
 
 class TopicModel():
-    def __init__(self, num_topics, doc_list, words, corpus, passes=20, iterations=400, pretrainedfile=None):
+    def __init__(self, news, num_topics, passes=20, iterations=400, pretrainedfile=None):
+        self.news = news
         self.num_topics = num_topics
-        self.corpus = corpus
-        self.words = words
         self.passes = passes
-        self.doc_list = doc_list
         self.iterations = iterations
         # intialize id2word
-        temp = self.words[0]
-        id2word = self.words.id2token
+        temp = self.news.words[0]
+        id2word = self.news.words.id2token
         if pretrainedfile:
             self.model = LdaModel.load(pretrainedfile)
         else:
-            self.model = LdaModel(corpus=self.corpus, id2word=id2word, 
+            self.model = LdaModel(corpus=self.news.corpus, id2word=id2word, 
                     num_topics=self.num_topics, random_state=42,
                     update_every=1, passes=self.passes, 
                     iterations=self.iterations)
@@ -45,27 +43,32 @@ class TopicModel():
             ax.axis("off")
             ax.set_title("Topic #" + str(i))
             plt.savefig('images/LDATopic' + str(i) + '.jpg')
+        return
 
     @property
     def doc_list(self):
-        return self.doc_list
+        return self.news.doc_list
 
     @property
     def words(self):
-        return self.words
+        return self.news.words
 
     @property
-    def corpus(self):    
-        return self.corpus 
+    def corpus(self):
+        return self.news.corpus
 
     def printTopics(self):
-        pprint(self.model.print_topics())  
+        pprint(self.model.print_topics())
 
-    def assignTopics(self, df):
-        df['topic'] = [self._getSingleTopic(i) for i in range(df.shape[0])]
+    def assignTopics(self):
+        if 'topic' not in self.news.df.columns:
+            self.news.df['topic'] = [self._getSingleTopic(i) for i in range(df.shape[0])]
+            return
+        else:
+            raise AttributeError('Topics have already been assigned') 
 
     def _getSingleTopic(self, i):
-        res = self.model[self.corpus[i]]
+        res = self.model[self.news.corpus[i]]
         res.sort(key=lambda x: -x[1])
         return res[0][0]
 
@@ -74,9 +77,9 @@ class TopicModel():
 
     def getCoherence(self, kind='c_v'):
         if kind == 'c_v':
-            coherence_model_lda = CoherenceModel(model=self.model, texts=self.doc_list, dictionary=self.words, coherence='c_v')
+            coherence_model_lda = CoherenceModel(model=self.model, texts=self.news.doc_list, dictionary=self.news.words, coherence='c_v')
         elif kind == 'u_mass':
-            coherence_model_lda = CoherenceModel(model=self.model, corpus=self.corpus, coherence='u_mass')
+            coherence_model_lda = CoherenceModel(model=self.model, corpus=self.news.corpus, coherence='u_mass')
         else:
             raise ValueError("Only c_v and u_mass are currently supported")
         return coherence_model_lda.get_coherence()
