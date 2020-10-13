@@ -51,7 +51,7 @@ class Articles():
     def corpus(self):
         return self.corpus
 
-    def _preprocessToDF(self, urls=True):
+    def _preprocessToDF(self, droprows=[3978, 7096, 7108, 8869], urls=True):
         texts = []
         titles = []
         with open(self.filepath, 'r', encoding='utf-8') as f:
@@ -83,7 +83,7 @@ class Articles():
         df = pd.DataFrame(dd)
         # drop rows with no text
         # Need to alter this if using a different dataset
-        df.drop([3978, 7096, 7108, 8869], inplace=True)
+        df.drop(droprows, inplace=True)
         return df
 
     def _createNLPPipeline(self):
