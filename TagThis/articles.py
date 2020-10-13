@@ -14,6 +14,7 @@ class Articles():
         self.filepath = filepath
         self.df = self._preprocessToDF()
         self.doc_list, self.words, self.corpus = self._createCorpus()
+        self.nlp = self._createNLPPipeline()
 
     def preprocessSingleInput(self, data):
         # assumes data is a string of sentences
@@ -26,8 +27,7 @@ class Articles():
         data = re.sub('[,\.!?]', '', data)
         # lowercase everything
         data = data.lower()
-        nlp = self._createNLPPipeline()
-        return nlp(data)
+        return self.nlp(data)
 
     def _preprocessToDF(self, urls=True):
         texts = []
@@ -107,11 +107,10 @@ class Articles():
             data = [x.lower() for x in data]
             newest_doc = data
             doc_list = []
-            nlp = self._createNLPPipeline()
             # Iterates through each article in the corpus.
             for doc in tqdm(newest_doc):
                 # Passes that article through the pipeline and adds to a new list.
-                pr = nlp(doc)
+                pr = self.nlp(doc)
                 doc_list.append(pr)
 
             # Creates, which is a mapping of word IDs to words.
