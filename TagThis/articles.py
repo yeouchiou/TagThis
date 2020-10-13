@@ -15,6 +15,20 @@ class Articles():
         self.df = self._preprocessToDF()
         self.doc_list, self.words, self.corpus = self._createCorpus()
 
+    def preprocessSingleInput(self, data):
+        # assumes data is a string of sentences
+        if len(data) < 10:
+            raise ValueError('Please post an article with more than a 10 words')
+        # remove city information
+        if data.split()[1] == '—':
+            data = ' '.join(data.split()[2:])
+        # remove punctuation
+        data = re.sub('[,\.!?]', '', data)
+        # lowercase everything
+        data = data.lower()
+        nlp = self._createNLPPipeline()
+        return nlp(data)
+
     def _preprocessToDF(self, urls=True):
         texts = []
         titles = []
@@ -50,17 +64,16 @@ class Articles():
         df.drop([3978, 7096, 7108, 8869], inplace=True)
         return df
 
-    def createNLPPipeline(self):
+    def _createNLPPipeline(self):
         def lemmatizer(doc):
-            # This takesself, doc of tokens from the NER and lemmatizes them.
-            # Pronouns (like "I" and "you" get lemmatized to '-PRON-', so rem ove those.
+            # This takes, doc of tokens from the NER and lemmatizes them.
+            # Pronouns (like "I" and "you" get lemmatized to '-PRON-', so remove those.
             doc = [token.lemma_ for token in doc if token.lemma_ != '-PRON-']
             doc = u' '.join(doc)
             return nlp.make_doc(doc)
 
         def remove_stopwords(doc):
-            # This will removeself, ords and punctuation.
-            # Use token.text to return strings, which we'll need for Gensim.
+            # This will removes, words and punctuation.
             doc = [token.text for token in doc if not token.is_stop and not token.is_punct]
             return doc
 
@@ -94,7 +107,7 @@ class Articles():
             data = [x.lower() for x in data]
             newest_doc = data
             doc_list = []
-            nlp = self.createNLPPipeline()
+            nlp = self._createNLPPipeline()
             # Iterates through each article in the corpus.
             for doc in tqdm(newest_doc):
                 # Passes that article through the pipeline and adds to a new list.
