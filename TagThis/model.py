@@ -42,6 +42,14 @@ class TopicModel():
         ax.set_title("Topic #" + str(topic))
         return fig, ax
 
+    def saveAllWorldClouds(self):
+        for i in range(self.model.num_topics):
+            fig, ax = plt.subplots()
+            ax.imshow(WordCloud().fit_words(dict(self.model.show_topic(i, 200))))
+            ax.axis("off")
+            ax.set_title("Topic #" + str(i))
+            plt.savefig('images/LDATopic' + str(i) + '.jpg')
+
     def getDocLlist(self):
         return self.doc_list 
 
