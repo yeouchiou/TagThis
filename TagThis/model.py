@@ -1,9 +1,5 @@
-import numpy as np
-import pandas as pd
-import pickle
 from pprint import pprint
 import matplotlib.pyplot as plt
-from collections import defaultdict
 from gensim.models import LdaModel, CoherenceModel
 from joblib import dump, load
 from wordcloud import WordCloud
@@ -50,13 +46,16 @@ class TopicModel():
             ax.set_title("Topic #" + str(i))
             plt.savefig('images/LDATopic' + str(i) + '.jpg')
 
-    def getDocLlist(self):
-        return self.doc_list 
+    @property
+    def doc_list(self):
+        return self.doc_list
 
-    def getWords(self):
+    @property
+    def words(self):
         return self.words
 
-    def getCorpus(self):    
+    @property
+    def corpus(self):    
         return self.corpus 
 
     def printTopics(self):
