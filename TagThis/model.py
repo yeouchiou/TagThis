@@ -45,18 +45,6 @@ class TopicModel():
             plt.savefig('images/LDATopic' + str(i) + '.jpg')
         return
 
-    @property
-    def doc_list(self):
-        return self.news.doc_list
-
-    @property
-    def words(self):
-        return self.news.words
-
-    @property
-    def corpus(self):
-        return self.news.corpus
-
     def printTopics(self):
         pprint(self.model.print_topics())
 
