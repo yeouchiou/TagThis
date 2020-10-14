@@ -9,4 +9,4 @@ def test_Articles_smoke():
 def test_TagThis_smoke():
     # Smoke test
     news = TagThis.Articles('data/test.txt', droprows=[])
-    obj = TagThis.TopicModel(1, news)
+    obj = TagThis.TopicModel(news, 1)
