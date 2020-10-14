@@ -18,15 +18,16 @@ class Articles():
     Methods:
         preprocessSingleInput
     """
-    def __init__(self, filepath):
+    def __init__(self, filepath, droprows=[3978, 7096, 7108, 8869]):
         """
-        Initialize Articles from a filepath.
+        Initialize Articles from a filepath. 
 
         Args:
             filepath (str): path to data
+            droprows (list of int): indices of rows to drop
         """
         self.filepath = filepath
-        self.df = self._preprocessToDF()
+        self.df = self._preprocessToDF(droprows=droprows)
         self.nlp = self._createNLPPipeline()
         self.doc_list, self.words, self.corpus = self._createCorpus()
 
