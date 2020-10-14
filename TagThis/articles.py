@@ -35,22 +35,6 @@ class Articles():
         data = data.lower()
         return self.nlp(data)
 
-    @property
-    def df(self):
-        return self.df
-
-    @property
-    def doc_list(self):
-        return self.doc_list
-
-    @property
-    def words(self):
-        return self.words
-
-    @property
-    def corpus(self):
-        return self.corpus
-
     def _preprocessToDF(self, droprows=[3978, 7096, 7108, 8869], urls=True):
         texts = []
         titles = []
