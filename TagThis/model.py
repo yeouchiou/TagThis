@@ -21,6 +21,7 @@ class TopicModel():
                     num_topics=self.num_topics, random_state=42,
                     update_every=1, passes=self.passes, 
                     iterations=self.iterations)
+        self._assignTopics()
 
     def save(self, filename):
         dump(self, filename)
@@ -48,7 +49,7 @@ class TopicModel():
     def printTopics(self):
         pprint(self.model.print_topics())
 
-    def assignTopics(self):
+    def _assignTopics(self):
         if 'topic' not in self.news.df.columns:
             self.news.df['topic'] = [self._getSingleTopic(i) for i in range(self.news.df.shape[0])]
             return
