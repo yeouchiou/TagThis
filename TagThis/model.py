@@ -50,7 +50,7 @@ class TopicModel():
 
     def assignTopics(self):
         if 'topic' not in self.news.df.columns:
-            self.news.df['topic'] = [self._getSingleTopic(i) for i in range(df.shape[0])]
+            self.news.df['topic'] = [self._getSingleTopic(i) for i in range(self.news.df.shape[0])]
             return
         else:
             raise AttributeError('Topics have already been assigned') 
