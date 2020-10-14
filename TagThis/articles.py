@@ -66,7 +66,6 @@ class Articles():
             dd['text'].append(texts[i])
         df = pd.DataFrame(dd)
         # drop rows with no text
-        # Need to alter this if using a different dataset
         df.drop(droprows, inplace=True)
         return df
 
