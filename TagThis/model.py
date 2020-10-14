@@ -23,6 +23,12 @@ class TopicModel():
                     iterations=self.iterations)
         self._assignTopics()
 
+    def __str__(self):
+        return "LDA model with " + str(self.num_topics) + " topics"
+    
+    def __repr__(self):
+        return str(self)
+
     def save(self, filename):
         dump(self, filename)
 
