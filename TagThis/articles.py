@@ -10,7 +10,21 @@ from spacy.lang.en.stop_words import STOP_WORDS
 
 
 class Articles():
+    """
+    Class to represent news articles. Contains a dataframe of loaded data and preprocesses
+    the data by removing lowercasing, removing stop words and punctuation, lemmatizing and puts into
+    a bag of words representation.
+
+    Methods:
+        preprocessSingleInput
+    """
     def __init__(self, filepath):
+        """
+        Initialize Articles from a filepath.
+
+        Args:
+            filepath (str): path to data
+        """
         self.filepath = filepath
         self.df = self._preprocessToDF()
         self.nlp = self._createNLPPipeline()
@@ -23,6 +37,15 @@ class Articles():
         return str(self)
 
     def preprocessSingleInput(self, data):
+        """
+        Function to preprocess a single (possibly unseen) document.
+
+        Args:
+            data (str): A string of greater than ten sentences.
+
+        Returns:
+            preprocessed bag of words represntation of document
+        """
         # assumes data is a string of sentences
         if len(data) < 10:
             raise ValueError('Please post an article with more than a 10 words')
@@ -36,6 +59,15 @@ class Articles():
         return self.nlp(data)
 
     def _preprocessToDF(self, droprows=[3978, 7096, 7108, 8869], urls=True):
+        """
+        Preprocess the textfile into a dataframe and drop emptry rows
+
+        Args:
+            droprows (int list): list of indices of rows to drop
+            urls (bool): If true, url is included, otherwise a title is approximated from the url
+        Returns:
+            dataframe
+        """
         texts = []
         titles = []
         with open(self.filepath, 'r', encoding='utf-8') as f:
@@ -70,6 +102,12 @@ class Articles():
         return df
 
     def _createNLPPipeline(self):
+        """
+        Create a spacy NLP pipeline for preprocessing. This includes removing a stop words and lemmatizing
+
+        Returns:
+            spacy nlp
+        """
         def lemmatizer(doc):
             # This takes, doc of tokens from the NER and lemmatizes them.
             # Pronouns (like "I" and "you" get lemmatized to '-PRON-', so remove those.
@@ -97,6 +135,15 @@ class Articles():
         return nlp
 
     def _createCorpus(self):
+        """
+        Create a gensim corpus from the data and saves it. If the data has been preprocessed before,
+        it will load the data.
+
+        Returns:
+            doc_list (list of list of str): list of bag of words reperesntation of articles
+            words (gensim Dictionary): gensim Dictionry
+            corpus (gensim Corpus): gensim Corpus
+        """
         if os.path.exists('processedtext.pkl'):
             with open('processedtext.pkl', 'rb') as f:
                 doc_list, words, corpus = pickle.load(f)
