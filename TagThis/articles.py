@@ -13,8 +13,8 @@ class Articles():
     def __init__(self, filepath):
         self.filepath = filepath
         self.df = self._preprocessToDF()
-        self.doc_list, self.words, self.corpus = self._createCorpus()
         self.nlp = self._createNLPPipeline()
+        self.doc_list, self.words, self.corpus = self._createCorpus()
 
     def __str__(self):
         return "List of articles from " + self.filepath
