@@ -7,7 +7,8 @@ from wordcloud import WordCloud
 
 class TopicModel():
     """
-    Class to represent an LDA model
+    Class to represent an LDA model. Model is trained on instantiation or can be loaded from a 
+    pretrained gensim model.
 
     Methods:
         generateWordCloud
