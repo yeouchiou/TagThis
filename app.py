@@ -17,7 +17,7 @@ app_mode = st.sidebar.selectbox("Choose the app mode", ['Tagger', 'Explore Tags'
 def identity(x): return x
 
 def loadCorpus():
-    with open('processedtext.pkl', 'rb') as f:
+    with open('data/processedtext.pkl', 'rb') as f:
         doc_list, words, corpus = pickle.load(f)
     return doc_list, words, corpus
 
