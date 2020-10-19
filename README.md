@@ -26,7 +26,7 @@ docker container run -p 8501:8501 -d tagthis:app
 
 To end the session, run `docker ps` and find the container ID and then run `docker kill <container_ID>`.
 
-## Advanced Setup
+## Advanced Setup/Usage
 
 To run the app on new data, you need to install the package. You may also import your own classifiers.
 1. git clone this repository and create an environment 
@@ -40,6 +40,17 @@ cd tagthis
 ```
 python setup.py install
 ```
+
+3. Example usage:
+```
+from TagThis import TopicModel, Articles
+news = Articles('data/nytimes_news_articles.txt')
+lda = TopicModel(news, 10)
+```
+
+From there, you can use several `TopicModel` methods such as `generateWordCloud`, `saveAllWordClouds`, `printTopics`, `getLogPerplexity`, and `getCoherence`.
+
+*Note*: If running this on a different dataset, you need to use the `droprows` kwarg in `Articles` and specify in a list the indices of the rows to drop. If there are none, simply pass `droprows=[]`. (There were empty articles that were preprocessed that I had to remove)
 
 ## How it works
 
