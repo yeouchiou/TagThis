@@ -66,6 +66,7 @@ Latent Dirichlet Allocation is a generative statistical model which creates late
 ![image](images/lda.png)
 
 I trained LDA on a Kaggle New York Times article dataset which contained around 9000 full-text articles from April to June in 2016. Articles had an average of about 800 words per article. I used average Jaccard similarity between topics to choose the number of topics. From the elbow method, 10 topics were chosen for this dataset.
+
 ![image](images/jaccard.png)
 
 ## Classifier
