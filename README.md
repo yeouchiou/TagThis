@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/yeouchiou/TagThis.svg?branch=main)](https://travis-ci.com/yeouchiou/TagThis)
 # TagThis!
 
-TagThis! is an automated news tagging system app that saves editors time by automatically creating topics and classifying articles so that editors can create relevant tags and quickly and easily curate news content. It leverages Latent Dirichlet Allocation (Blei+03) to create latent topics, then uses a support vector classifier to infer topics from new articles. This app was created during my time at Insight Data Science as an Artificial Intelligence Fellow in 20C.
+TagThis! is an automated news tagging system app that saves editors time by automatically creating topics and classifying articles so that editors can create relevant tags and quickly and easily curate news content. It leverages Latent Dirichlet Allocation [[Blei+03]](https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf) to create latent topics, then uses a support vector classifier to infer topics from new articles. This app was created during my time at Insight Data Science as an Artificial Intelligence Fellow in 20C.
 
 ## Setup
 
@@ -23,6 +23,9 @@ docker image build -t tagthis:app .
 ```
 docker container run -p 8501:8501 -d tagthis:app
 ```
+
+To end the session, run `docker ps` and find the container ID and then run `docker kill <container_ID>`.
+
 ## Advanced Setup
 
 To run the app on new data, you need to install the package. You may also import your own classifiers.
