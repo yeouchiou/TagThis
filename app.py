@@ -1,25 +1,56 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
-import gensim.corpora as corpora
-from gensim.models import TfidfModel, LdaModel
-from gensim import similarities
-from TagThis.preprocess import *
-from wordcloud import WordCloud
-import pickle
 import joblib
+import re
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS
+from gensim.models import LdaModel
 
-st.title('TagThis!')
-df = preprocessToDF()
-st.sidebar.title("Options")
-app_mode = st.sidebar.selectbox("Choose the app mode", ['Tagger', 'Explore Tags'])
+
+def preprocessSingleInput(data):
+    # assumes data is a string of sentences
+    if len(data) < 10:
+        raise ValueError('Please post an article with more than a 10 words')
+    # remove city information
+    if data.split()[1] == '—':
+        data = ' '.join(data.split()[2:])
+    # remove punctuation
+    data = re.sub('[,\.!?]', '', data)
+    # lowercase everything
+    data = data.lower()
+    nlp = spacy.load('en_core_web_sm', disable=['tagger', 'parser'])
+
+    # Updates spaCy's default stop words list with my additional words.
+    stop_list = ["mrs", "ms", "say", "'s", "mr", '\ufeff1']
+    nlp.Defaults.stop_words.update(stop_list)
+
+    # Iterates over the words in the stop words list and resets the "is_stop" flag.
+    for word in STOP_WORDS:
+        lexeme = nlp.vocab[word]
+        lexeme.is_stop = True
+
+    def lemmatizer(doc):
+        # This takes in a doc of tokens from the NER and lemmatizes them. 
+        # Pronouns (like "I" and "you" get lemmatized to '-PRON-', so remove those.
+        doc = [token.lemma_ for token in doc if token.lemma_ != '-PRON-']
+        doc = u' '.join(doc)
+        return nlp.make_doc(doc)
+
+    def remove_stopwords(doc):
+        # This will remove stopwords and punctuation.
+        # Use token.text to return strings, which we'll need for Gensim.
+        doc = [token.text for token in doc if not token.is_stop and not token.is_punct]
+        return doc
+
+    # The add_pipe function appends our functions to the default pipeline.
+    nlp.add_pipe(lemmatizer, name='lemmatizer', after='ner')
+    nlp.add_pipe(remove_stopwords, name="stopwords", last=True)
+
+    return nlp(data)
+
 
 def identity(x): return x
 
-def loadCorpus():
-    with open('data/processedtext.pkl', 'rb') as f:
-        doc_list, words, corpus = pickle.load(f)
-    return doc_list, words, corpus
 
 def loadModels():
     model = LdaModel.load('models/ldamodels_bow_10.lda')
@@ -27,8 +58,6 @@ def loadModels():
     svm = joblib.load('models/svm.joblib')
     return model, tfidf, svm
 
-doc_list, words, corpus = loadCorpus()
-model, tfidf, svm = loadModels()
 
 def loadTagger():
     "### Welcome to TagThis!, an app that automatically tags your news article for content curation!"
@@ -38,16 +67,22 @@ def loadTagger():
 
     if user_input:
         processedDoc = preprocessSingleInput(user_input)
-        doctfidf = tfidf.transform(np.array(processedDoc).reshape(1,-1))
+        doctfidf = tfidf.transform(np.array(processedDoc).reshape(1, -1))
         tag = svm.predict(doctfidf)[0]
         'This article belongs to Topic #' + str(tag) + '!'
         st.image('images/LDAtopic'+str(tag)+'.jpg')
-        
+
 
 def exploreTags():
     st.markdown("### Explore what words are represesnted by the latent topics!")
     for t in range(model.num_topics):
         st.image('images/LDAtopic'+str(t)+'.jpg')
+
+
+st.title('TagThis!')
+st.sidebar.title("Options")
+app_mode = st.sidebar.selectbox("Choose the app mode", ['Tagger', 'Explore Tags'])
+model, tfidf, svm = loadModels()
 
 if app_mode == 'Tagger':
     loadTagger()
