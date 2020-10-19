@@ -44,6 +44,7 @@ class TopicModel():
                     num_topics=self.num_topics, random_state=42,
                     update_every=1, passes=self.passes, 
                     iterations=self.iterations)
+            print('Done training!')
         self._assignTopics()
 
     def __str__(self):
